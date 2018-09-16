@@ -79,6 +79,10 @@ def get_random_sorted_repeated_list(size):
 @pytest.mark.repeat(100)
 @pytest.mark.timeout(1)
 def test_long_random_repeated_list():
+    """
+    This has proven useful to make lots of different tests quickly and find some weird cases.
+    I am pretty confident now that the algorithm is robust.
+    """
     size = 100
     l = get_random_sorted_repeated_list(size)
     print(l)
