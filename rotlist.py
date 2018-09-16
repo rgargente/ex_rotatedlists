@@ -32,7 +32,8 @@ def find_sorted_nonunique_rotated(l, n):
     max = len(l) - 1
     i = 0
     while min < max:
-        i_set = False
+        prev_i = i
+
         value = l[i]
         if value == n:
             return i
@@ -43,11 +44,9 @@ def find_sorted_nonunique_rotated(l, n):
                 min = i + 1
             else:  # let's just search to the left
                 i = get_middle(min, i)
-                i_set = True
         elif i > 0:
             if l[0] == value and min == 0:  # still  a repeated value, we've learned nothing
                 i = find_first_different(l, i)
-                i_set = True
             else:  # pass the rotation point, bigger values can be to the left
                 if n < value:  # if our number is smaller than the current value, it must be to the left...
                     max = i - 1
@@ -56,12 +55,11 @@ def find_sorted_nonunique_rotated(l, n):
                     min = i + 1
                 else:  # we don't know which side it is, let's just search to the left
                     i = get_middle(min, i)
-                    i_set = True
 
-        if not i_set:
+        if prev_i == i:  # if so far we haven't modified i (i.e. we don't want to search somewhere specific) let's find the new middle
             prev_i = i
             i = get_middle(min, max)
-            if prev_i == i:
-                i += 1
+            if prev_i == i: # it's possible that the middle returns the same value we already had when max-min==1 ...
+                i += 1 # ... in that case, let's try the next value this time
 
     return i if l[i] == n else None
